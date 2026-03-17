@@ -1,5 +1,5 @@
 [project]
-name = "log-cli"
+name = "jidongdong"
 version = "0.1.0"
 description = "记咚咚 - 记录日常日志的 CLI 工具"
 authors = [{name = "gudong", email = "gudong@example.com"}]
