@@ -26,7 +26,7 @@ def init(
                 return {"cancelled": True, "message": "已取消初始化"}
 
     try:
-        init_database(db_path)
+        init_database()
         return {
             "message": f"{APP_NAME} 初始化成功",
             "db_path": str(db_path),
