@@ -3,8 +3,8 @@
 import typer
 from rich.console import Console
 from pathlib import Path
-from ..db import init_database
-from ..config import APP_NAME, VERSION, DATA_DIR
+from ..db import init_database, get_db_path
+from ..config import APP_NAME, VERSION
 from dong import json_output, DongError
 
 console = Console()
@@ -12,12 +12,10 @@ console = Console()
 
 @json_output
 def init(
-    db_path: Path = None,
     yes: bool = typer.Option(False, "--yes", "-y", help="不提示，直接初始化"),
 ):
     """初始化数据库"""
-    if db_path is None:
-        db_path = DATA_DIR / "log.db"
+    db_path = get_db_path()
 
     if db_path.exists():
         if not yes:
