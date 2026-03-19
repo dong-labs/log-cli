@@ -5,7 +5,7 @@
 ## 安装
 
 ```bash
-pipx install log-cli
+pipx install dong-log
 ```
 
 ## 命令列表
