@@ -5,7 +5,7 @@
 ## 安装
 
 ```bash
-pip install log-cli
+pipx install dong-log
 ```
 
 ## 快速开始
