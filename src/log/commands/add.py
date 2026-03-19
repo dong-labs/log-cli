@@ -14,6 +14,7 @@ console = Console()
 def add(
     content: str = typer.Argument(..., help="日志内容"),
     group: str = typer.Option(DEFAULT_GROUP, "--group", "-g", help="分组"),
+    tags: str = typer.Option(None, "--tags", "-t", help="标签，多个用逗号分隔"),
 ):
     """记录日志"""
     if not content or not content.strip():
@@ -25,13 +26,19 @@ def add(
     now = datetime.now()
     date_str = now.strftime("%Y-%m-%d")
 
+    # 处理标签
+    tags_str = ""
+    if tags:
+        tags_list = [t.strip() for t in tags.split(",") if t.strip()]
+        tags_str = ",".join(tags_list)
+
     try:
         cursor.execute(
             """
-            INSERT INTO logs (content, log_group, date, created_at)
-            VALUES (?, ?, ?, ?)
+            INSERT INTO logs (content, log_group, date, tags, created_at)
+            VALUES (?, ?, ?, ?, ?)
             """,
-            (content.strip(), group, date_str, now.isoformat()),
+            (content.strip(), group, date_str, tags_str, now.isoformat()),
         )
         conn.commit()
 
@@ -41,6 +48,7 @@ def add(
             "content": content,
             "group": group,
             "date": date_str,
+            "tags": tags_str,
             "created_at": now.isoformat(),
         }
     finally:

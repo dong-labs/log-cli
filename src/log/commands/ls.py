@@ -17,6 +17,7 @@ def list_logs(
     today: bool = typer.Option(False, "--today", help="只显示今天的"),
     week: bool = typer.Option(False, "--week", help="只显示本周的"),
     group: str = typer.Option(None, "--group", "-g", help="按分组筛选"),
+    tag: str = typer.Option(None, "--tag", "-t", help="按标签筛选"),
 ):
     """列出日志"""
     conn = get_connection()
@@ -38,11 +39,15 @@ def list_logs(
         conditions.append("log_group = ?")
         params.append(group)
 
+    if tag:
+        conditions.append("tags LIKE ?")
+        params.append(f"%{tag}%")
+
     where_clause = " AND ".join(conditions) if conditions else "1=1"
     params.append(limit)
 
     query = f"""
-        SELECT id, content, log_group as 'group', date, created_at
+        SELECT id, content, log_group as 'group', date, tags, created_at
         FROM logs
         WHERE {where_clause}
         ORDER BY created_at DESC

@@ -9,7 +9,7 @@ from .connection import LogDatabase
 
 
 # 当前 Schema 版本
-SCHEMA_VERSION = "1.0.0"
+SCHEMA_VERSION = "1.1.0"
 
 
 class LogSchemaManager(SchemaManager):
@@ -39,6 +39,7 @@ class LogSchemaManager(SchemaManager):
                     content TEXT NOT NULL,
                     log_group TEXT DEFAULT 'default',
                     date TEXT,
+                    tags TEXT DEFAULT '',
                     created_at TEXT DEFAULT CURRENT_TIMESTAMP,
                     updated_at TEXT DEFAULT CURRENT_TIMESTAMP
                 )
@@ -49,6 +50,7 @@ class LogSchemaManager(SchemaManager):
         with LogDatabase.get_cursor() as cur:
             cur.execute("CREATE INDEX IF NOT EXISTS idx_logs_group ON logs(log_group)")
             cur.execute("CREATE INDEX IF NOT EXISTS idx_logs_date ON logs(date)")
+            cur.execute("CREATE INDEX IF NOT EXISTS idx_logs_tags ON logs(tags)")
 
 
 # ============================================================================
