@@ -2,6 +2,8 @@
 
 > 📝 记录日常日志的 CLI 工具
 
+[![Version](https://img.shields.io/badge/Version-0.5.0-blue.svg)](https://pypi.org/project/dong-log/)
+
 ## 安装
 
 ```bash
