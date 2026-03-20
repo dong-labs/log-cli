@@ -9,7 +9,11 @@ app = typer.Typer(
 )
 
 # 导入命令
-from .commands import init, add, ls, get, delete, groups, set_default, search, stats, tags
+from .commands import (
+    init, add, ls, get, delete, groups, 
+    set_default, search, stats, tags,
+    export, data_import
+)
 
 app.command()(init.init)
 app.command()(add.add)
@@ -21,6 +25,8 @@ app.command(name="set-default")(set_default.set_default)
 app.command()(search.search)
 app.command()(stats.stats)
 app.command()(tags.tags)
+app.command()(export.export)
+app.command(name="import")(data_import.import_data)
 
 def main():
     app()
