@@ -62,11 +62,11 @@ def add(
 def list(
     limit: int = typer.Option(20, "--limit", "-l", help="返回数量"),
     group: str = typer.Option(None, "--group", "-g", help="按分组筛选"),
-    tags: str = typer.Option(None, "--tags", "-t", help="按标签筛选"),
+    tag: str = typer.Option(None, "--tag", "-t", help="按标签筛选"),
 ):
     """列出日志"""
     from .commands import ls
-    return ls.list_logs(limit=limit, group=group, tags=tags)
+    return ls.list_logs(limit=limit, group=group, tag=tag)
 
 
 @app.command()
