@@ -10,6 +10,11 @@ from rich.console import Console
 console = Console()
 
 
+def _is_option_info(value):
+    """检查是否是 Typer OptionInfo 对象"""
+    return hasattr(value, '__class__') and value.__class__.__name__ == 'OptionInfo'
+
+
 @json_output
 def add(
     content: str = typer.Argument(..., help="日志内容"),
@@ -19,6 +24,12 @@ def add(
     """记录日志"""
     if not content or not content.strip():
         raise ValidationError("content", "日志内容不能为空")
+
+    # 过滤 OptionInfo 对象
+    if _is_option_info(group):
+        group = DEFAULT_GROUP
+    if _is_option_info(tags):
+        tags = None
 
     conn = get_connection()
     cursor = conn.cursor()

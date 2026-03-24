@@ -11,6 +11,11 @@ from rich.table import Table
 console = Console()
 
 
+def _is_option_info(value):
+    """检查是否是 Typer OptionInfo 对象"""
+    return hasattr(value, '__class__') and value.__class__.__name__ == 'OptionInfo'
+
+
 @json_output
 def list_logs(
     limit: int = typer.Option(DEFAULT_LIMIT, "--limit", "-l", help="显示数量"),
@@ -20,6 +25,18 @@ def list_logs(
     tag: str = typer.Option(None, "--tag", "-t", help="按标签筛选"),
 ):
     """列出日志"""
+    # 过滤 OptionInfo 对象
+    if _is_option_info(limit):
+        limit = DEFAULT_LIMIT
+    if _is_option_info(today):
+        today = False
+    if _is_option_info(week):
+        week = False
+    if _is_option_info(group):
+        group = None
+    if _is_option_info(tag):
+        tag = None
+
     conn = get_connection()
     cursor = conn.cursor()
 
